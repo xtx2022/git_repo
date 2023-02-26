@@ -1,0 +1,3 @@
+[submodule "learnGit"]
+	path = learnGit
+	url = https://GitHub.com/JinzeSi/learnGit.git
