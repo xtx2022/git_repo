@@ -1,0 +1,60 @@
+## Bing
+Sure, here is a MATLAB code that computes the spectrum of the given sinusoid using the DFT with the specified window functions and window sizes:
+
+% Given sinusoid
+x = 2 * sin(2000 * pi * (0:7999) / 8000);
+
+% Triangular window function with window size = 50
+w1 = triang(50);
+y1 = x(1:50) .* w1';
+Y1 = abs(fft(y1));
+
+% Hamming window function with window size = 100
+w2 = hamming(100);
+y2 = x(1:100) .* w2';
+Y2 = abs(fft(y2));
+
+% Hanning window function with window size = 150
+w3 = hann(150);
+y3 = x(1:150) .* w3';
+Y3 = abs(fft(y3));
+
+% Plotting the time series and the corresponding spectra before and after applying the window function
+figure;
+subplot(3, 2, 1);
+plot(x);
+title('Time series of the given sinusoid');
+xlabel('Sample number');
+ylabel('Amplitude');
+
+subplot(3, 2, 2);
+plot(Y1);
+title('Spectrum of a triangular window function with window size = 50');
+xlabel('Frequency index');
+ylabel('Magnitude');
+
+subplot(3, 2, 3);
+plot(x);
+title('Time series of the given sinusoid');
+xlabel('Sample number');
+ylabel('Amplitude');
+
+subplot(3, 2, 4);
+plot(Y2);
+title('Spectrum of a Hamming window function with window size = 100');
+xlabel('Frequency index');
+ylabel('Magnitude');
+
+subplot(3, 2, 5);
+plot(x);
+title('Time series of the given sinusoid');
+xlabel('Sample number');
+ylabel('Amplitude');
+
+subplot(3, 2, 6);
+plot(Y3);
+title('Spectrum of a Hanning window function with window size = 150');
+xlabel('Frequency index');
+ylabel('Magnitude');
+
+Please note that the x-axis of the spectra plots is in units of frequency index, which is proportional to frequency. The y-axis is in units of magnitude. The spectra plots show the magnitude of the DFT coefficients. The DFT coefficients are complex numbers, but we are only plotting their magnitudes here. The spectra plots show the frequency content of the given sinusoid after applying the specified window function. The window function is applied to the time series before computing the DFT. The window function reduces spectral leakage and improves frequency resolution.
