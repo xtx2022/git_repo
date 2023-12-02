@@ -1,0 +1,40 @@
+% 读取图像，转换为灰度图像
+I = imread('pout.tif');
+I = rgb2gray(I);
+% 获取图像的大小和像素值
+[m,n] = size(I);
+X = double(I(:));
+% 设置阈值
+T = 128;
+% 将图像的灰度分为两个区间
+X1 = X(X<=T); % [0, T]
+X2 = X(X>T); % [T+1, 255]
+% 计算两个区间的像素个数
+N1 = length(X1);
+N2 = length(X2);
+% 计算两个区间的累积概率分布函数（CDF）
+CDF1 = cumsum(hist(X1,0:T))/N1;
+CDF2 = cumsum(hist(X2,T+1:255))/N2;
+% 根据两个区间的CDF，映射出新的灰度值
+Y1 = round(CDF1 * T);
+Y2 = round(CDF2 * (255-T) + T);
+% 用新的灰度值替换原来的像素值
+Y = zeros(size(X));
+Y(X<=T) = Y1(X(X<=T)+1);
+Y(X>T) = Y2(X(X>T)-T);
+% 得到均衡化后的图像
+J = uint8(reshape(Y,m,n));
+% 显示原始图像和均衡化后的图像
+subplot(2,2,1);
+imshow(I);
+title('Original Image');
+subplot(2,2,2);
+imshow(J);
+title('Threshold Histogram Equalized Image');
+% 显示原始图像和均衡化后的图像的直方图
+subplot(2,2,3);
+imhist(I);
+title('Histogram of Original Image');
+subplot(2,2,4);
+imhist(J);
+title('Histogram of Equalized Image');
